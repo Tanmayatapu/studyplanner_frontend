@@ -20,6 +20,7 @@ const navItems = [
   { name: "Study Plan", path: "/study-plan", icon: Calendar },
   { name: "Progress", path: "/progress", icon: TrendingUp },
   { name: "Settings", path: "/settings", icon: SettingsIcon },
+  
 ];
 
 export default function DashboardLayout() {
@@ -52,32 +53,40 @@ export default function DashboardLayout() {
     navigate("/");
   }
 
-  function renderNav(closeOnClick = false) {
-    return navItems.map((item) => {
-      const Icon = item.icon;
-      return (
-        <NavLink
-          key={item.path}
-          to={item.path}
-          end={item.path === "/dashboard"}
-          onClick={closeOnClick ? () => setMobileNavOpen(false) : undefined}
-          className={({ isActive }) =>
-            `flex items-center gap-3 rounded-xl px-4 py-3 transition-colors ${
-              isActive
-                ? "bg-[#4ade80]/10 text-[#4ade80]"
-                : "text-[#9ca3af] hover:bg-[#25262b] hover:text-[#e8e9eb]"
-            }`
-          }
-        >
-          <Icon className="h-5 w-5" />
-          <span className="font-medium">{item.name}</span>
-        </NavLink>
-      );
-    });
-  }
+ function renderNav(closeOnClick = false) {
+  return (
+    <>
+      {navItems.map((item) => {
+        const Icon = item.icon;
+        return (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            end={item.path === "/dashboard"}
+            onClick={closeOnClick ? () => setMobileNavOpen(false) : undefined}
+            className={({ isActive }) =>
+              `flex items-center gap-3 rounded-xl px-4 py-3 transition-colors ${
+                isActive
+                  ? "bg-[#4ade80]/10 text-[#4ade80]"
+                  : "text-[#9ca3af] hover:bg-[#25262b] hover:text-[#e8e9eb]"
+              }`
+            }
+          >
+            <Icon className="h-5 w-5" />
+            <span className="font-medium">{item.name}</span>
+          </NavLink>
+        );
+      })}
+      <p className="px-4 py-3 font-medium text-[#6b7280]">
+        MADE BY TANMAYA WITH LOVE 🫡 😎
+      </p>
+    </>
+  );
+}
 
   function renderProfileSection() {
     return (
+      <>
       <div className="space-y-4 border-t border-[#2a2b30] p-4">
         <div className="flex items-center gap-3 rounded-xl bg-[#25262b] px-4 py-4">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#4ade80]/20 text-sm font-semibold text-[#4ade80]">
@@ -88,7 +97,7 @@ export default function DashboardLayout() {
             <p className="truncate text-xs text-[#9ca3af]">{displayEmail}</p>
           </div>
         </div>
-
+      
         <button
           type="button"
           onClick={handleLogout}
@@ -98,6 +107,7 @@ export default function DashboardLayout() {
           <span className="font-medium">Logout</span>
         </button>
       </div>
+      </>
     );
   }
 
