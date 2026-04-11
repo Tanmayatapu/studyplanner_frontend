@@ -23,6 +23,7 @@ export function decorateSubject(subject, progress = {}) {
     topicsDone,
     progress: progressValue,
     pendingTopics: Math.max(0, topicsTotal - topicsDone),
+    preferredStudySlotLabel: formatStudySlot(subject.preferredStudySlot),
   };
 }
 
@@ -32,4 +33,9 @@ export function formatDate(value) {
     day: "numeric",
     year: "numeric",
   });
+}
+
+export function formatStudySlot(value) {
+  if (!value) return "Not set";
+  return value.charAt(0).toUpperCase() + value.slice(1);
 }

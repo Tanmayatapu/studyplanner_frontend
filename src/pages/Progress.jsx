@@ -38,7 +38,7 @@ export default function Progress() {
         daysTracked: weeklyData.daysTracked || 0,
         streak: streakData.streak || 0,
         weakTopics: weakTopicsData.weakTopics || [],
-        weeklyBreakdown: buildWeeklyBreakdown(weeklyData.weeklyHours || 0, weeklyData.daysTracked || 0),
+        weeklyBreakdown: weeklyData.weeklyBreakdown || [],
       });
     } catch (loadError) {
       setError(loadError.response?.data?.message || loadError.message || "Unable to load analytics");
@@ -53,22 +53,22 @@ export default function Progress() {
     <div className="p-0">
       <div className="mb-8">
         <h1 className="mb-1 text-3xl font-semibold tracking-tight">Progress &amp; Analytics</h1>
-        <p className="text-[#9ca3af]">Live metrics from analytics and study-log endpoints.</p>
+        <p className="text-[#9ca3af]">Track consistency, real study time, and the topics that still need attention.</p>
       </div>
 
       {error ? <div className="mb-6 rounded-xl border border-rose-400/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-300">{error}</div> : null}
 
       <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
-        <StatCard icon={Flame} value={loading ? "..." : String(analytics.streak)} title="Day Streak" description="Calculated from consecutive study logs" />
+        <StatCard icon={Flame} value={loading ? "..." : String(analytics.streak)} title="Day Streak" description="Calculated from consecutive study days" />
         <StatCard icon={TrendingUp} value={loading ? "..." : `${analytics.weeklyHours.toFixed(1)}h`} title="This Week" description={`${analytics.daysTracked} tracked days in the last 7 days`} accent />
-        <StatCard icon={null} value={loading ? "..." : `${analytics.totalHours.toFixed(1)}h`} title="Total Study Hours" description="Summed from all study logs" badge={`${analytics.daysTracked}`} />
+        <StatCard icon={null} value={loading ? "..." : `${analytics.totalHours.toFixed(1)}h`} title="Total Study Hours" description="Summed from all saved study reviews" badge={`${analytics.daysTracked}`} />
       </div>
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         <div className="overflow-hidden rounded-xl border border-[#2a2b30] bg-[#18191d] xl:col-span-2">
           <div className="border-b border-[#2a2b30] p-6">
             <h2 className="text-xl font-semibold">Weekly Study Hours</h2>
-            <p className="mt-1 text-sm text-[#9ca3af]">Visualized from the weekly performance endpoint</p>
+            <p className="mt-1 text-sm text-[#9ca3af]">A real day-by-day chart from your last seven days of logged study.</p>
           </div>
           <div className="h-[360px] p-6">
             <ResponsiveContainer width="100%" height="100%">
@@ -89,7 +89,7 @@ export default function Progress() {
               <AlertCircle className="h-5 w-5 text-amber-400" />
               <h2 className="text-xl font-semibold">Weak Topics</h2>
             </div>
-            <p className="text-sm text-[#9ca3af]">Direct output from the weak-topics analytics controller</p>
+            <p className="text-sm text-[#9ca3af]">Topics with the most remaining work based on your real progress.</p>
           </div>
           <div className="space-y-4 p-6">
             {analytics.weakTopics.length > 0 ? analytics.weakTopics.map((item) => {
@@ -99,7 +99,7 @@ export default function Progress() {
                   <div className="mb-2 flex items-start justify-between gap-4">
                     <div className="flex-1">
                       <div className="text-sm font-medium">{item.name}</div>
-                      <div className="text-xs text-[#9ca3af]">Studied {item.studied}h of {item.estimated}h</div>
+                      <div className="text-xs text-[#9ca3af]">Studied {item.studied}h of {item.estimated}h · {item.remaining}h left</div>
                     </div>
                     <div className="text-sm font-semibold text-amber-400">{score}%</div>
                   </div>
@@ -115,7 +115,7 @@ export default function Progress() {
         <div className="overflow-hidden rounded-xl border border-[#2a2b30] bg-[#18191d] xl:col-span-3">
           <div className="border-b border-[#2a2b30] p-6">
             <h2 className="text-xl font-semibold">Recent Achievements</h2>
-            <p className="mt-1 text-sm text-[#9ca3af]">Derived from your live analytics results</p>
+            <p className="mt-1 text-sm text-[#9ca3af]">Momentum signals derived from your live study history.</p>
           </div>
           <div className="grid grid-cols-1 gap-4 p-6 md:grid-cols-3">
             {achievements.map((achievement) => (
@@ -154,15 +154,4 @@ function buildAchievements(analytics) {
     { title: "Hours Champion", description: `${analytics.weeklyHours.toFixed(1)} hours studied in the last 7 days.`, date: "This week" },
     { title: "Tracking Momentum", description: `${analytics.daysTracked} tracked study days in the weekly snapshot.`, date: "Current snapshot" },
   ];
-}
-
-function buildWeeklyBreakdown(weeklyHours, daysTracked) {
-  const dayLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  const activeDays = Math.max(1, Math.min(dayLabels.length, daysTracked || 1));
-  const average = weeklyHours / activeDays;
-
-  return dayLabels.map((day, index) => ({
-    day,
-    hours: index < activeDays ? Number(average.toFixed(1)) : 0,
-  }));
 }

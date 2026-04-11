@@ -34,9 +34,9 @@ export default function AuthLayout({ children }) {
         </div>
       </div>
 
-      <div className="flex min-h-screen w-full items-center justify-center bg-[#0f1115] p-8 lg:w-1/2">
+      <div className="flex min-h-screen w-full items-center justify-center bg-[#0f1115] p-4 sm:p-6 lg:w-1/2 lg:p-8">
         <div className="w-full max-w-md">
-          <div className="mb-12 flex items-center gap-3 lg:hidden">
+          <div className="mb-8 flex items-center gap-3 sm:mb-10 lg:hidden">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#4ade80]/10">
               <BookOpen className="h-6 w-6 text-[#4ade80]" />
             </div>
@@ -62,3 +62,4 @@ function FeatureCard({ icon: Icon, title, description }) {
     </div>
   );
 }
+

@@ -42,7 +42,7 @@ export default function Register() {
 
   return (
     <AuthLayout>
-      <div className="rounded-2xl border border-[#2a2b30] bg-[#18191d] p-8 shadow-2xl shadow-black/20">
+      <div className="rounded-2xl border border-[#2a2b30] bg-[#18191d] p-5 shadow-2xl shadow-black/20 sm:p-8">
         <div className="mb-8">
           <h2 className="text-2xl font-semibold">Create an account</h2>
           <p className="mt-2 text-sm text-[#9ca3af]">Register through the backend and start using the planner</p>
@@ -87,3 +87,4 @@ function Field({ label, name, value, onChange, type = "text" }) {
     </label>
   );
 }
+

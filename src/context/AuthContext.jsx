@@ -53,7 +53,7 @@ export function AppProvider({ children }) {
         name: data.name,
         email: data.email,
         token: data.token,
-        studyPreferences: session?.studyPreferences || defaultPreferences,
+        studyPreferences: data.studyPreferences || defaultPreferences,
       };
 
       setSession(nextSession);

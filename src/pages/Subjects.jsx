@@ -11,6 +11,7 @@ const initialForm = {
   description: "",
   examDate: "",
   priority: "medium",
+  preferredStudySlot: "evening",
 };
 
 export default function Subjects() {
@@ -77,12 +78,12 @@ export default function Subjects() {
 
   return (
     <div className="p-0">
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="mb-1 text-3xl font-semibold tracking-tight">Subjects</h1>
-          <p className="text-[#9ca3af]">Live subject list from `createSubject`, `getSubjects`, and `deleteSubject`.</p>
+          <p className="text-[#9ca3af]">Step 1: add every subject with its exam date, priority, and preferred study slot before building topics inside it.</p>
         </div>
-        <button type="button" onClick={() => setIsAdding(true)} className="inline-flex items-center gap-2 rounded-xl bg-[#4ade80] px-4 py-2.5 text-sm font-semibold text-[#0f1115] transition hover:bg-[#62e68f]">
+        <button type="button" onClick={() => setIsAdding(true)} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#4ade80] px-4 py-2.5 text-sm font-semibold text-[#0f1115] transition hover:bg-[#62e68f] sm:w-auto">
           <Plus className="h-4 w-4" />
           Add Subject
         </button>
@@ -90,10 +91,18 @@ export default function Subjects() {
 
       {error ? <div className="mb-6 rounded-xl border border-rose-400/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-300">{error}</div> : null}
 
+      <div className="mb-8 rounded-xl border border-[#2a2b30] bg-[#18191d] p-5 sm:p-6">
+        <div className="grid gap-4 md:grid-cols-3">
+          <InfoBlock title="1. Add the subject" description="Include the exam date, subject priority, and your best study slot." />
+          <InfoBlock title="2. Add topics inside it" description="Break the subject into realistic topic units with difficulty and estimated hours." />
+          <InfoBlock title="3. Review after studying" description="At day end, update what you finished and what stayed pending for replanning." />
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
         {loading ? <LoadingCard /> : subjects.map((subject) => (
           <div key={subject._id} className="group rounded-xl border border-[#2a2b30] bg-[#18191d] transition-all hover:border-[#4ade80]/50">
-            <div className="p-6">
+            <div className="p-5 sm:p-6">
               <div className="mb-4 flex items-start justify-between gap-3">
                 <div className={`flex h-12 w-12 items-center justify-center rounded-lg text-lg font-semibold ${subject.accent}`}>
                   {subject.code}
@@ -103,18 +112,23 @@ export default function Subjects() {
                 </button>
               </div>
 
-              <div className="mb-2 flex items-center justify-between gap-3">
+              <div className="mb-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
                 <h3 className="text-xl font-semibold">{subject.name}</h3>
-                <span className="rounded-full bg-[#25262b] px-2.5 py-1 text-xs font-medium capitalize text-[#9ca3af]">{subject.priority}</span>
+                <span className="w-fit rounded-full bg-[#25262b] px-2.5 py-1 text-xs font-medium capitalize text-[#9ca3af]">{subject.priority}</span>
               </div>
 
-              <div className="mb-4 flex items-center gap-2 text-sm text-[#9ca3af]">
+              <div className="mb-4 flex flex-wrap items-center gap-2 text-sm text-[#9ca3af]">
                 <Calendar className="h-4 w-4" />
                 <span>{formatDate(subject.examDate)} · {subject.examIn} days left</span>
               </div>
 
+              <div className="mb-4 flex flex-wrap gap-2 text-xs text-[#9ca3af]">
+                <span className="rounded-full bg-[#25262b] px-2.5 py-1">Study slot: {subject.preferredStudySlotLabel}</span>
+                <span className="rounded-full bg-[#25262b] px-2.5 py-1">Pending: {subject.pendingTopics}</span>
+              </div>
+
               <div className="mb-5">
-                <div className="mb-2 flex items-center justify-between text-sm">
+                <div className="mb-2 flex flex-col gap-1 text-sm sm:flex-row sm:items-center sm:justify-between">
                   <span className="text-[#9ca3af]">Progress</span>
                   <span className="font-medium">{subject.topicsDone}/{subject.topicsTotal} topics</span>
                 </div>
@@ -130,26 +144,26 @@ export default function Subjects() {
           </div>
         ))}
 
-        <button type="button" onClick={() => setIsAdding(true)} className="flex min-h-[300px] flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-[#2a2b30] bg-[#18191d] transition-all hover:border-[#4ade80]/50 hover:bg-[#25262b]/50">
+        <button type="button" onClick={() => setIsAdding(true)} className="flex min-h-[220px] flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-[#2a2b30] bg-[#18191d] p-6 transition-all hover:border-[#4ade80]/50 hover:bg-[#25262b]/50 sm:min-h-[300px]">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#4ade80]/10">
             <Plus className="h-6 w-6 text-[#4ade80]" />
           </div>
           <div className="font-medium">Add New Subject</div>
-          <p className="text-sm text-[#9ca3af]">Name, description, exam date, and priority</p>
+          <p className="text-center text-sm text-[#9ca3af]">Start with the subject, then add topics inside it.</p>
         </button>
       </div>
 
       {isAdding ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm" onClick={() => setIsAdding(false)}>
-          <form onSubmit={handleSubmit} onClick={(event) => event.stopPropagation()} className="w-full max-w-[560px] overflow-hidden rounded-2xl border border-[#2a2b30] bg-[#18191d] shadow-2xl shadow-black/40">
-            <div className="flex items-center justify-between border-b border-[#2a2b30] px-7 py-6">
-              <h3 className="text-2xl font-semibold">Add New Subject</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 py-6 backdrop-blur-sm" onClick={() => setIsAdding(false)}>
+          <form onSubmit={handleSubmit} onClick={(event) => event.stopPropagation()} className="max-h-[calc(100vh-3rem)] w-full max-w-[560px] overflow-y-auto rounded-2xl border border-[#2a2b30] bg-[#18191d] shadow-2xl shadow-black/40">
+            <div className="flex items-center justify-between border-b border-[#2a2b30] px-5 py-5 sm:px-7 sm:py-6">
+              <h3 className="text-xl font-semibold sm:text-2xl">Add New Subject</h3>
               <button type="button" onClick={() => setIsAdding(false)} className="text-[#9ca3af] transition hover:text-white">
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            <div className="space-y-5 px-7 py-6">
+            <div className="space-y-5 px-5 py-5 sm:px-7 sm:py-6">
               <Field label="Subject Name" name="name" value={form.name} setForm={setForm} placeholder="e.g., Calculus III" />
               <Field label="Description" name="description" value={form.description} setForm={setForm} placeholder="Short overview of the subject" />
               <Field label="Exam Date" name="examDate" value={form.examDate} setForm={setForm} type="date" />
@@ -161,6 +175,18 @@ export default function Subjects() {
                   <option value="low">Low</option>
                 </select>
               </label>
+              <label className="block">
+                <span className="mb-2 block text-sm font-medium text-[#e8e9eb]">Preferred Study Slot</span>
+                <select name="preferredStudySlot" value={form.preferredStudySlot} onChange={(event) => setForm((current) => ({ ...current, preferredStudySlot: event.target.value }))} className="h-11 w-full rounded-xl border border-[#2a2b30] bg-[#0f1115] px-4 text-sm text-white outline-none transition focus:border-[#4ade80]">
+                  <option value="morning">Morning</option>
+                  <option value="afternoon">Afternoon</option>
+                  <option value="evening">Evening</option>
+                </select>
+              </label>
+
+              <div className="rounded-xl border border-[#2a2b30] bg-[#0f1115] p-4 text-sm text-[#9ca3af]">
+                This helps you define how the planner should think about the best time window for this subject.
+              </div>
 
               <div className="grid gap-3 pt-2 sm:grid-cols-2">
                 <button type="submit" className="rounded-xl bg-[#4ade80] px-5 py-3 text-sm font-semibold text-[#0f1115] transition hover:bg-[#62e68f]">Add Subject</button>
@@ -184,5 +210,14 @@ function Field({ label, name, value, setForm, placeholder, type = "text" }) {
 }
 
 function LoadingCard() {
-  return <div className="min-h-[300px] rounded-xl border border-[#2a2b30] bg-[#18191d]" />;
+  return <div className="min-h-[220px] rounded-xl border border-[#2a2b30] bg-[#18191d] sm:min-h-[300px]" />;
+}
+
+function InfoBlock({ title, description }) {
+  return (
+    <div className="rounded-xl border border-[#2a2b30] bg-[#0f1115] p-4">
+      <div className="font-semibold text-white">{title}</div>
+      <p className="mt-2 text-sm text-[#9ca3af]">{description}</p>
+    </div>
+  );
 }
