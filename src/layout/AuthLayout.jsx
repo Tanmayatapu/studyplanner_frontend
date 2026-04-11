@@ -1,47 +1,123 @@
-﻿import { BookOpen, Sparkles, TrendingUp } from "lucide-react";
+﻿// import { BookOpen, Sparkles, TrendingUp } from "lucide-react";
+
+// export default function AuthLayout({ children }) {
+//   return (
+//     <div className="min-h-screen bg-[#0f1115] text-[#e8e9eb] lg:flex">
+//       <div className="hidden border-r border-[#2a2b30] bg-[#18191d] lg:flex lg:w-1/2 lg:flex-col lg:justify-between lg:p-12">
+//         <div>
+//           <div className="mb-16 flex items-center gap-3">
+//             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#4ade80]/10">
+//               <BookOpen className="h-6 w-6 text-[#4ade80]" />
+//             </div>
+//             <span className="text-2xl font-semibold tracking-tight">AI Study Planner</span>
+//           </div>
+
+//           <div className="max-w-md">
+//             <h1 className="text-4xl font-semibold tracking-tight">Plan smarter. Study consistently.</h1>
+//             <p className="mt-4 text-lg leading-relaxed text-[#9ca3af]">
+//               An intelligent study planning system designed for college students preparing for exams. Stay organized, track your progress, and ace your tests.
+//             </p>
+//           </div>
+//         </div>
+
+//         <div className="max-w-md space-y-6">
+//           <FeatureCard
+//             icon={Sparkles}
+//             title="Smart scheduling"
+//             description="AI-powered study plans adapted to your exam dates and learning pace"
+//           />
+//           <FeatureCard
+//             icon={TrendingUp}
+//             title="Track your progress"
+//             description="Visual insights into your study habits, streaks, and topic mastery"
+//           />
+//         </div>
+//       </div>
+
+//       <div className="flex min-h-screen w-full items-center justify-center bg-[#0f1115] p-4 sm:p-6 lg:w-1/2 lg:p-8">
+//         <div className="w-full max-w-md">
+//           <div className="mb-8 flex items-center gap-3 sm:mb-10 lg:hidden">
+//             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#4ade80]/10">
+//               <BookOpen className="h-6 w-6 text-[#4ade80]" />
+//             </div>
+//             <span className="text-xl font-semibold">AI Study Planner</span>
+//           </div>
+//           {children}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// function FeatureCard({ icon: Icon, title, description }) {
+//   return (
+//     <div className="flex items-start gap-4 rounded-xl border border-[#2a2b30] bg-[#25262b]/50 p-4">
+//       <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#4ade80]/10">
+//         <Icon className="h-5 w-5 text-[#4ade80]" />
+//       </div>
+//       <div>
+//         <h3 className="font-medium">{title}</h3>
+//         <p className="mt-1 text-sm text-[#9ca3af]">{description}</p>
+//       </div>
+//     </div>
+//   );
+// }
+
+import { BookOpen, Sparkles, TrendingUp } from "lucide-react";
 
 export default function AuthLayout({ children }) {
   return (
-    <div className="min-h-screen bg-[#0f1115] text-[#e8e9eb] lg:flex">
-      <div className="hidden border-r border-[#2a2b30] bg-[#18191d] lg:flex lg:w-1/2 lg:flex-col lg:justify-between lg:p-12">
-        <div>
-          <div className="mb-16 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#4ade80]/10">
-              <BookOpen className="h-6 w-6 text-[#4ade80]" />
+    <div className="min-h-screen bg-[#0f1115] text-[#e8e9eb] lg:grid lg:grid-cols-[0.95fr_1.05fr]">
+      {/* Left branding panel */}
+      <div className="hidden border-r border-[#2a2b30] bg-[#18191d] lg:flex lg:flex-col lg:justify-center lg:px-10 lg:py-12 xl:px-14">
+        <div className="mx-auto flex w-full max-w-lg flex-col gap-10">
+          <div>
+            <div className="mb-12 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#4ade80]/10">
+                <BookOpen className="h-6 w-6 text-[#4ade80]" />
+              </div>
+              <span className="text-2xl font-semibold tracking-tight">
+                AI Study Planner
+              </span>
             </div>
-            <span className="text-2xl font-semibold tracking-tight">AI Study Planner</span>
+
+            <div className="max-w-md">
+              <h1 className="text-4xl font-semibold tracking-tight leading-tight">
+                Plan smarter. Study consistently.
+              </h1>
+              <p className="mt-3 text-base leading-7 text-[#9ca3af]">
+                An intelligent study planning system designed for college
+                students preparing for exams. Stay organized, track your
+                progress, and stay focused until every exam is done.
+              </p>
+            </div>
           </div>
 
-          <div className="max-w-md">
-            <h1 className="text-4xl font-semibold tracking-tight">Plan smarter. Study consistently.</h1>
-            <p className="mt-4 text-lg leading-relaxed text-[#9ca3af]">
-              An intelligent study planning system designed for college students preparing for exams. Stay organized, track your progress, and ace your tests.
-            </p>
+          <div className="space-y-4">
+            <FeatureCard
+              icon={Sparkles}
+              title="Smart scheduling"
+              description="Generate adaptive study plans based on exam dates, priorities, remaining topics, and available study time."
+            />
+            <FeatureCard
+              icon={TrendingUp}
+              title="Track your progress"
+              description="Review daily progress, monitor consistency, and keep unfinished work visible instead of losing control."
+            />
           </div>
-        </div>
-
-        <div className="max-w-md space-y-6">
-          <FeatureCard
-            icon={Sparkles}
-            title="Smart scheduling"
-            description="AI-powered study plans adapted to your exam dates and learning pace"
-          />
-          <FeatureCard
-            icon={TrendingUp}
-            title="Track your progress"
-            description="Visual insights into your study habits, streaks, and topic mastery"
-          />
         </div>
       </div>
 
-      <div className="flex min-h-screen w-full items-center justify-center bg-[#0f1115] p-4 sm:p-6 lg:w-1/2 lg:p-8">
-        <div className="w-full max-w-md">
-          <div className="mb-8 flex items-center gap-3 sm:mb-10 lg:hidden">
+      {/* Right content area */}
+      <div className="flex min-h-screen w-full items-center justify-center bg-[#0f1115] px-4 py-6 sm:px-6 lg:px-8 xl:px-10">
+        <div className="w-full max-w-2xl xl:max-w-3xl">
+          <div className="mb-6 flex items-center gap-3 lg:hidden">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#4ade80]/10">
               <BookOpen className="h-6 w-6 text-[#4ade80]" />
             </div>
             <span className="text-xl font-semibold">AI Study Planner</span>
           </div>
+
           {children}
         </div>
       </div>
@@ -56,10 +132,9 @@ function FeatureCard({ icon: Icon, title, description }) {
         <Icon className="h-5 w-5 text-[#4ade80]" />
       </div>
       <div>
-        <h3 className="font-medium">{title}</h3>
-        <p className="mt-1 text-sm text-[#9ca3af]">{description}</p>
+        <h3 className="font-medium text-white">{title}</h3>
+        <p className="mt-1 text-sm leading-6 text-[#9ca3af]">{description}</p>
       </div>
     </div>
   );
 }
-
